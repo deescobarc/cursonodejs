@@ -1,0 +1,46 @@
+{{>header}}
+<div class="container" style="border-left: 1px solid silver; border-right: 1px solid silver">
+    <br>
+    <h4>
+        Llene los datos para la creación del curso
+    </h4>
+    <br>
+    <form action='/cursoRegistrado' method="post">
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label>Nombre completo del curso</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del curso" required><br>
+                </div>
+                <div class="col">
+                    <label>Id del curso</label>
+                    <input type="number" class="form-control" name="id" placeholder="Ingrese el id del curso" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Descripción</label>
+            <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Valor total</label>
+            <input type="number" class="form-control" name="valor" placeholder="Valor del curso" required>
+        </div>
+        <div class="form-group">
+            <label>Modalidad (Puede seleccionar Virtual, Presencial o N/A)</label>
+            <select class="form-control" name="modalidad" id="modalidad">
+            <option value="N/A">N/A</option>
+            <option value="virtual">Virtual</option>
+            <option value="presencial">Presencial</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Intensidad Horaria</label>
+            <input type="number" class="form-control" name="intensidad" placeholder="Horas del curso">
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" >Registrar</button>
+        </div>
+    </form>
+</div>
+{{>footer}}

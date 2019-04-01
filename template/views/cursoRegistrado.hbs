@@ -1,0 +1,25 @@
+{{>header}}
+<div class="container" style="border-left: 1px solid silver; border-right: 1px solid silver">
+    <br>
+    <h4>
+        El curso quedó registrado exitosamente
+    </h4>
+    <br>
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            <b>Nombre: </b> {{curso.nombre}}
+            </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>ID: </b>{{curso.id}}</li>
+                    <li class="list-group-item"><b>Descripción: </b>{{curso.descripcion}}</li>
+                    <li class="list-group-item"><b>Valor : </b>{{curso.valor}}</li>
+                    <li class="list-group-item"><b>Modalidad: </b>{{curso.modalidad}}</li>
+                    <li class="list-group-item"><b>Intensidad: </b>{{curso.intensidad}}</li>
+                    <li class="list-group-item"><b>Estado: </b>{{curso.estado}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{>footer}}
