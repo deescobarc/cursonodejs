@@ -77,7 +77,7 @@ hbs.registerHelper('verCursos', () => {
                     <div class="card-body">
                         <b>Descripción: </b> ${curso.descripcion} <br>
                         <b>Modalidad: </b> ${curso.modalidad} <br>
-                        <b>Intensidad Horaria: </b> ${curso.intesidad} <br>
+                        <b>Intensidad Horaria: </b> ${curso.intensidad} <br>
                     </div>
                 </div>
             </div>`; 
@@ -125,13 +125,15 @@ hbs.registerHelper('verInscripciones', () => {
             `<div class="card">
                 <div class="card-header" id="heading${i}">
                     <h2 class="mb-0">
-                        <input type="text" value="prueba" name="prueba"  style="visibility:hidden">
+                    <form action='/cursosInscripcion' method="post">
+                        <input type="text" value="${curso.id}" name="curso" id="curso"  style="visibility:hidden">
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i} style="text-align: center"">
                             <h4>${curso.id} - ${curso.nombre}</h4>  
                             <b>Número de Aspirantes: </b> ${countInscritosCurso(curso.id,listaInscripciones)} <br>
                             <button class="btn btn-success" type="submit">Disponible</button>
                         </button>   
-                    </h2>                    
+                    </h2>   
+                    </form>                 
                 </div>                
                 <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordionExample">
                     <div class="card-body">
@@ -141,19 +143,23 @@ hbs.registerHelper('verInscripciones', () => {
             </div>`; 
             i = i+1; 
         }else{
+            texto = texto +
             `<div class="card">
                 <div class="card-header" id="heading${i}">
                     <h2 class="mb-0">
+                    <form action='/cursosInscripcion' method="post">
+                    <input type="text" value="${curso.id}" name="curso" id="curso" style="visibility:hidden">
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i} style="text-align: center"">
-                            <h4>${curso.nombre}</h4>  
-                            <b>Número de Aspirantes: $</b> ${countInscritosCurso(curso.id,listaInscripciones)}<br>
-                            <a class="btn btn-danger" href="#" role="button">Cerrado</a>
+                            <h4>${curso.id} - ${curso.nombre}</h4>  
+                            <b>Número de Aspirantes: </b> ${countInscritosCurso(curso.id,listaInscripciones)}
+                            <button class="btn btn-dark" type="submit">Cerrado</button>
                         </button>
                     </h2>
+                    </form>
                 </div>                
                 <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordionExample">
                     <div class="card-body">
-                        ${inscritosCurso(curso.id,listaInscripciones)}
+                    ${inscritosCurso(curso.id,listaInscripciones)}
                     </div>
                 </div>
             </div>`; 
@@ -189,7 +195,12 @@ const inscritosCurso = (id,listaInscripciones) => {
             listaUsuarios.forEach(u =>{
                 if(i.idUser == u.id){
                     texto = texto +
-                    `<b>Nombre: </b>` + u.nombre+ `<b> ID: </b>` + u.id + `<br>`;
+                    `<form action='/cursosInscripcion' method="post">
+                    <input type="text" value="`+ u.id+ `" name="idUser" id="idUser" style="visibility:hidden">
+                    `+  
+                    `<b>Nombre: </b>` + u.nombre+ `<b> ID: </b>` + u.id + `<br>
+                    <button class="btn btn-dark" type="submit" align="center">Eliminar</button>
+                    </form>`;
                 } 
             });
         })

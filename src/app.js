@@ -93,8 +93,15 @@ app.get('/cursosInscripcion',(req, res) =>{
 })
 
 app.post('/cursosInscripcion',(req, res) =>{
-    console.log('hhola' + req.bodyParser);
-    //inscripcion = inscripcionControlador.actualizar(req.body);
+    console.log(req.body.curso);
+    
+    if(req.body.curso){
+        inscripcion = inscripcionControlador.actualizar(req.body.curso);
+    }else{
+        console.log(req.body);
+        inscripcion = inscripcionControlador.eliminar(req.body.idUser);
+    }
+    
     res.render('inscripcionLista',{
         titulo: 'Cursos y aspirantes'
     });

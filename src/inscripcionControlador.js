@@ -57,7 +57,15 @@ const guardar = () =>{
     let datos = JSON.stringify(listaInscripcion);
     fs.writeFile('src/listadoInscripcion.json', datos, (err)=>{
         if (err) trow (err);
-        console.log('Archivo creado o actualizado con éxito');
+        console.log('Archivo inscripciones creado o actualizado con éxito');
+    })
+}
+
+const guardarC = () =>{
+    let datos = JSON.stringify(listaCursos);
+    fs.writeFile('src/listadoCursos.json', datos, (err)=>{
+        if (err) trow (err);
+        console.log('Archivo cursos creado o actualizado con éxito');
     })
 }
 
@@ -65,7 +73,7 @@ const guardarUser = () =>{
     let datos = JSON.stringify(listaUsuarios);
     fs.writeFile('src/listadoUsuarios.json', datos, (err)=>{
         if (err) trow (err);
-        console.log('Archivo creado o actualizado con éxito');
+        console.log('Archivo usuarios creado o actualizado con éxito');
     })
 }
 
@@ -77,22 +85,44 @@ const mostrar = () =>{
     });
 }
 
-const actualizar = (id, estado) =>{
+const actualizar = (id) =>{
     //Traigo lo que hay en el json
     listar();
-    let encontrado = listaInscripcion.find(buscar => buscar.idCurso == idCurso)
+    let encontrado = listaCursos.find(buscar => buscar.id == id)
     if (!encontrado){
         console.log('No existe el curso');
         return 'No existe el curso';
     }
     else{
-        //Le modfico el estado
-        encontrado['estado'] = estado;
-        guardar();
+        //Le modifico el estado
+        if(encontrado['estado'] == 'disponible'){
+            encontrado['estado'] = 'cerrado';
+        }else{
+            encontrado['estado'] = 'disponible';
+        }
+        guardarC();
+    }
+}
+
+const eliminar = (id) =>{
+    listar();
+    let nuevo = listaInscripcion.filter(bus => bus.idUser != id);
+    let nuevoU = listaUsuarios.filter(bus => bus.id != id);
+    if(nuevo.length == listaInscripcion.length){
+        console.log('Ningún estudiante tiene el nombre indicado');
+    }
+    else{
+        console.log('entré');
+        listaInscripcion = nuevo;
+        listaUsuarios = nuevoU;
+        guardar();  
+        guardarUser();      
     }
 }
 
 
 module.exports = {
-    crear
+    crear,
+    actualizar,
+    eliminar
 }
