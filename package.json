@@ -4,6 +4,7 @@
   "description": "Entrega trabajo 2 curso node js",
   "main": "src/app",
   "scripts": {
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "David Esteban Escobar Castro <deescobarc@unal.edu.co>",
