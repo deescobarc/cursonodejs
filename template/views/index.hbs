@@ -9,5 +9,37 @@
     <p><b>Inscripción: </b> Le permite al interesado registrarse en un curso de interés</p>
     <p><b>Cursos e integrantes: </b> Le permite al coordinador ver los cursos con cada uno de sus inscritos y cerrar o colocarlo como disponible, adicional puede eliminar los aspirantes de los cursos</p>
     <br>
+    <p>Ingrese sus datos en el siguiente formulario</p>
+    <form action='/' method="post">
+        <div class="form-group">
+            <label>Nombre de Usuario</label>
+            <input type="text" class="form-control" name="nombre" id="nombre"
+            placeholder="Nombre de usuario" required><br>
+            <label>Contraseña</label>
+            <input type="password" class="form-control" name="password" id="nombre"
+            placeholder="Contraseña" required><br>
+             <div class="row">
+                <div class="col">
+                    <label>Nota 1</label>
+                    <input type="number" class="form-control" name="matematicas" id="matematicas" 
+                    placeholder="Nota 1" required>
+                </div>
+                <div class="col">
+                    <label>Nota 2</label>
+                    <input type="number" class="form-control" name="ingles" id="ingles" 
+                    placeholder="Nota 2" required>
+                </div>
+                <div class="col">
+                    <label>Nota 3</label>
+                    <input type="number" class="form-control" name="programacion" id="programacion" 
+                    placeholder="Nota 3" required>
+                </div>
+            </div>
+            <br>
+            <div class="text-center">
+                <button class="btn btn-dark" >Registrar</button>
+            </div>
+        </div>
+    </form>
 </div>
 {{>footer}}

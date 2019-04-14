@@ -1,11 +1,38 @@
 const hbs = require('hbs');
 
+hbs.registerHelper('mostrar', (listado) => {
+    let texto = `<form action='/eliminar' method="post">
+                <table class='table table-striped table-hover'>
+                <thead class='thead-dark'>
+                <th>Nombre</th>
+                <th>Matemáticas</th>
+                <th>Inglés</th>
+                <th>Programación</th>    
+                <th></th> 
+                </thead>
+                <tbody>`;
+
+    listado.forEach(estudiante => {
+        texto = texto +
+                `<tr> 
+                 <td> ${estudiante.nombre} </td>
+                 <td> ${estudiante.matematicas} </td>
+                 <td> ${estudiante.ingles} </td>
+                 <td> ${estudiante.programacion} </td>
+                 <td><button class="btn btn-danger" name="nombre" value="${estudiante.nombre}">Eliminar</button></td>
+                </tr>`
+        });
+    texto = texto + '</tbody></table></form>';    
+    return texto;
+});
+
+
 hbs.registerHelper('obtenerPromedio', (nota1,nota2,nota3) =>{
     return (nota1+nota2+nota3)/3;
 });
 
 hbs.registerHelper('listar', () => {
-    listaEstudiantes = require('./listado.json');
+    listaEstudiantes = require('../listado.json');
     let texto = "<table class='table table-striped table-hover'>" + 
                 "<thead class='thead-dark'>" +
                 "<th>Nombre</th>" +
@@ -28,7 +55,7 @@ hbs.registerHelper('listar', () => {
 });
 
 hbs.registerHelper('listar2', () => {
-    listaEstudiantes = require('./listado.json');
+    listaEstudiantes = require('../listado.json');
     let texto = "<div class='accordion' id='accordionExample'>"
     i = 1;
     listaEstudiantes.forEach(estudiante => {
@@ -57,7 +84,7 @@ hbs.registerHelper('listar2', () => {
 });
 
 hbs.registerHelper('verCursos', () => {
-    listaCursos = require('./listadoCursos.json');
+    listaCursos = require('../listadoCursos.json');
     let texto = "<div class='accordion' id='accordionExample'>"
     i = 1;
     listaCursos.forEach(curso => {
@@ -96,7 +123,7 @@ hbs.registerHelper('verCursos', () => {
 });
 
 hbs.registerHelper('listarCursos', () => {
-    listaCursos = require('./listadoCursos.json');
+    listaCursos = require('../listadoCursos.json');
     let texto = ""
     i = 1;
     listaCursos.forEach(curso => {
@@ -114,9 +141,9 @@ hbs.registerHelper('listarCursos', () => {
 });
 
 hbs.registerHelper('verInscripciones', () => {
-    listaCursos = require('./listadoCursos.json');
-    listaInscripciones = require('./listadoInscripcion.json');
-    listaUsuarios = require('./listadoUsuarios.json');
+    listaCursos = require('../listadoCursos.json');
+    listaInscripciones = require('../listadoInscripcion.json');
+    listaUsuarios = require('../listadoUsuarios.json');
     let texto = "<div class='accordion' id='accordionExample'>"
     i = 1;
     listaCursos.forEach(curso => {
@@ -188,7 +215,7 @@ const countInscritosCurso = (id,listaInscripciones) => {
 
 const inscritosCurso = (id,listaInscripciones) => {
     lista = listaInscripciones.filter(i => i.idCurso == id);
-    listaUsuarios = require('./listadoUsuarios.json');
+    listaUsuarios = require('../listadoUsuarios.json');
     let texto = "";
     if (lista){
         lista.forEach(i => {
@@ -212,7 +239,7 @@ const inscritosCurso = (id,listaInscripciones) => {
 
 
 hbs.registerHelper('listarInscritos', () => {
-    listaUsers = require('./listadoCursos.json');
+    listaUsers = require('../listadoCursos.json');
     let texto = ""
     i = 1;
     listaCursos.forEach(curso => {

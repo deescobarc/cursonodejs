@@ -13,7 +13,7 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="col-sm-6">
-                    <h1 display-4>{{titulo}}</h1>
+                    <h1 display-4>{{titulo}} </h1>
                 </div>
                 <div class="col-sm-6">
                     <img src="img/banner.jpg"  class="img-fluid img-thumbnail rounded float-right" > 
@@ -42,7 +42,28 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="/cursosInscripcion">Cursos e Integrantes</a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/vernotas">Ver notas</a>
+                </li>
+                {{# if sesion}}
+                <li class="nav-item ">
+                    <a class="nav-link" href="/actualizar">Actualizar</a>
+                </li>
             </ul>
         </div>
+        
+        <br>
+            <form class="form-inline my-2 my-lg-0" action="/salir" method="get">
+            <h3>{{nombre}}</h3>
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Salir</button>
+        </form>
+        {{else}}
+        </ul>
+         <form class="form-inline my-2 my-lg-0" action="/ingresar" method="POST">
+                <input class="form-control mr-sm-2" type="text" name="usuario" placeholder="Nombre de usuario">
+                <input class="form-control mr-sm-2" type="password" name="password" placeholder="Contraseña">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Ingresar</button>
+        </form>
+        {{/if}}
         </nav>
     </div>    
