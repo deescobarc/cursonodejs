@@ -351,11 +351,18 @@ app.get('/vercursos',(req, res) =>{
         if(err){
             return console.log(err)
         }
+        if(respuesta){
+            return res.render ('cursosLista',{
+                titulo: 'Cursos Disponibles de Educación Continua',
+                listado : respuesta
+            })
+        }else{
+            return res.redirect('/',{
+                titulo: 'Nadie se ha inscrito a los cursos'
+            })
+        }
 
-        res.render ('cursosLista',{
-            titulo: 'Cursos Disponibles de Educación Continua',
-            listado : respuesta
-        })
+        
     })
     // console.log(req.query);
     // res.render('cursosLista',{
