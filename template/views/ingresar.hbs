@@ -1,6 +1,25 @@
 {{>header}}
 <div class="container" style="border-left: 1px solid silver; border-right: 1px solid silver">
     <h1>{{mensaje}}</h1>
+    {{# if coordinador}}
+    <br>
+    <h4>
+        Selecciona una opción del menú superior las cuales se detallan a continuación
+    </h4>
+    <p><b>Crear cursos: </b> Le permite a usted como coordinador registrar cursos nuevos</p>
+    {{!-- <p><b>Ver cursos: </b> Le permite al interesado ver los cursos disponibles</p> --}}
+    <p><b>Cursos e integrantes: </b> Le permite al coordinador ver los cursos con cada uno de sus inscritos y cerrar o colocarlo como disponible, adicional puede eliminar los aspirantes de los cursos</p>
+    <br>
+    {{/if}}
+    {{# if aspirante}}
+    <br>
+    <h4>
+        Selecciona una opción del menú superior las cuales se detallan a continuación
+    </h4>
+    {{!-- <p><b>Ver cursos: </b> Le permite al interesado ver los cursos disponibles</p> --}}
+    <p><b>Inscripción: </b> Le permite al aspirante registrarse en un curso de interés</p>
+    <br>
+    {{/if}}
 </div>
 
 {{>footer}}

@@ -31,39 +31,58 @@
                     <a class="nav-link" href="/">Home </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/cursos">Crear Cursos</a>
-                </li>
-                <li class="nav-item ">
                     <a class="nav-link" href="/vercursos">Ver Cursos</a>
                 </li>
+                {{# if sesion}}
+                {{# if aspirante}}
                 <li class="nav-item ">
                     <a class="nav-link" href="/inscripcion">Inscripción</a>
+                </li>
+                </ul>
+                {{/if}}
+                {{# if coordinador}}
+                <li class="nav-item ">
+                    <a class="nav-link" href="/cursos">Crear Cursos</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="/cursosInscripcion">Cursos e Integrantes</a>
                 </li>
-                <li class="nav-item ">
+                {{!-- <li class="nav-item ">
                     <a class="nav-link" href="/vernotas">Ver notas</a>
                 </li>
-                {{# if sesion}}
                 <li class="nav-item ">
                     <a class="nav-link" href="/actualizar">Actualizar</a>
                 </li>
-            </ul>
+                </ul> --}}
+                {{/if}}
+            
         </div>
-        
-        <br>
             <form class="form-inline my-2 my-lg-0" action="/salir" method="get">
-            <h3>{{nombre}}</h3>
+            <h3>{{nombre }} - </h3>
             <button class="btn btn-primary my-2 my-sm-0" type="submit">Salir</button>
         </form>
+        </nav>
         {{else}}
         </ul>
-         <form class="form-inline my-2 my-lg-0" action="/ingresar" method="POST">
-                <input class="form-control mr-sm-2" type="text" name="usuario" placeholder="Nombre de usuario">
-                <input class="form-control mr-sm-2" type="password" name="password" placeholder="Contraseña">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Ingresar</button>
-        </form>
-        {{/if}}
         </nav>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <form class="form-inline" action="/ingresar" method="POST">
+                    <h3>Iniciar Sesión</h3>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input class="form-control" type="text" name="correo" placeholder="Correo electrónico">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input class="form-control" type="password" name="password" placeholder="Contraseña">
+                    </div> 
+                    <div class="form-group mx-sm-3 mb-2">
+                        <button class="btn btn-primary" type="submit">Ingresar</button>
+             </div>     
+        </form>
+            </div>
+        </div>
+         
+        {{/if}}
+        
     </div>    

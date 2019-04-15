@@ -8,28 +8,28 @@
     <form action='/inscripcionRealizada' method="post">
         <div class="form-group">
             <label>Documento de identidad</label>
-            <input type="number" class="form-control" name="id" placeholder="Ingrese # de Documento de Identidad" required>
+            <input type="number" class="form-control" name="id" value="{{id}}" readonly placeholder="Ingrese # de Documento de Identidad" required>
         </div>
         <div class="form-group">
             <label>Nombre Completo</label>
-            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre Completo" required><br>
+            <input type="text" class="form-control" name="nombre" id="nombre" value="{{nombre}}" readonly placeholder="Nombre Completo" required><br>
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col">
                     <label>Correo electrónico</label>
-                    <input type="email" class="form-control" name="correo" id="correo" placeholder="E-Mail" required><br>
+                    <input type="email" class="form-control" name="correo" id="correo" value="{{correo}}" readonly placeholder="E-Mail" required><br>
                 </div>
                 <div class="col">
                     <label>Teléfono</label>
-                    <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Teléfono fijo o celular" required><br>
+                    <input type="tel" class="form-control" name="telefono" id="telefono" value="{{telefono}}" readonly placeholder="Teléfono fijo o celular" required><br>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label>Curso de interés</label>
             <select class="form-control" name="curso" id="curso">
-                {{{listarCursos}}}
+                {{{listarCursos listado}}}
             </select>
         </div>
         <div class="text-center">

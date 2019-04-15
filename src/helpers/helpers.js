@@ -83,11 +83,11 @@ hbs.registerHelper('listar2', () => {
     return texto;
 });
 
-hbs.registerHelper('verCursos', () => {
-    listaCursos = require('../listadoCursos.json');
+hbs.registerHelper('verCursos', (listado) => {
+    //listaCursos = require('../listadoCursos.json');
     let texto = "<div class='accordion' id='accordionExample'>"
     i = 1;
-    listaCursos.forEach(curso => {
+    listado.forEach(curso => {
         if(curso.estado == 'disponible'){
             texto = texto +
             `<div class="card">
@@ -122,11 +122,11 @@ hbs.registerHelper('verCursos', () => {
     return texto;
 });
 
-hbs.registerHelper('listarCursos', () => {
-    listaCursos = require('../listadoCursos.json');
+hbs.registerHelper('listarCursos', (listado) => {
+    //listaCursos = require('../listadoCursos.json');
     let texto = ""
     i = 1;
-    listaCursos.forEach(curso => {
+    listado.forEach(curso => {
         if(curso.estado == 'disponible'){
             texto = texto +
             `<option value=${curso.id}>${curso.id} - ${curso.nombre}</option>`;
@@ -140,13 +140,15 @@ hbs.registerHelper('listarCursos', () => {
     return texto;
 });
 
-hbs.registerHelper('verInscripciones', () => {
-    listaCursos = require('../listadoCursos.json');
-    listaInscripciones = require('../listadoInscripcion.json');
-    listaUsuarios = require('../listadoUsuarios.json');
+hbs.registerHelper('verInscripciones', (inscripciones, cursos, usuarios) => {
+    //listaCursos = require('../listadoCursos.json');
+    //listaInscripciones = require('../listadoInscripcion.json');
+    //listaUsuarios = require('../listadoUsuarios.json');
     let texto = "<div class='accordion' id='accordionExample'>"
     i = 1;
-    listaCursos.forEach(curso => {
+    cursos.forEach(curso => {
+        console.log('datos curso')
+        console.log(curso)
         if(curso.estado == 'disponible'){
             texto = texto +
             `<div class="card">
@@ -156,7 +158,7 @@ hbs.registerHelper('verInscripciones', () => {
                         <input type="text" value="${curso.id}" name="curso" id="curso"  style="visibility:hidden">
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i} style="text-align: center"">
                             <h4>${curso.id} - ${curso.nombre}</h4>  
-                            <b>Número de Aspirantes: </b> ${countInscritosCurso(curso.id,listaInscripciones)} <br>
+                            <b>Número de Aspirantes: </b> ${countInscritosCurso(curso.id,inscripciones)} <br>
                             <button class="btn btn-success" type="submit">Disponible</button>
                         </button>   
                     </h2>   
@@ -164,7 +166,7 @@ hbs.registerHelper('verInscripciones', () => {
                 </div>                
                 <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordionExample">
                     <div class="card-body">
-                        ${inscritosCurso(curso.id,listaInscripciones)}
+                        ${inscritosCurso(curso.id,inscripciones,usuarios)}
                     </div>
                 </div>
             </div>`; 
@@ -178,7 +180,7 @@ hbs.registerHelper('verInscripciones', () => {
                     <input type="text" value="${curso.id}" name="curso" id="curso" style="visibility:hidden">
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i} style="text-align: center"">
                             <h4>${curso.id} - ${curso.nombre}</h4>  
-                            <b>Número de Aspirantes: </b> ${countInscritosCurso(curso.id,listaInscripciones)}
+                            <b>Número de Aspirantes: </b> ${countInscritosCurso(curso.id,inscripciones)}
                             <button class="btn btn-dark" type="submit">Cerrado</button>
                         </button>
                     </h2>
@@ -186,7 +188,7 @@ hbs.registerHelper('verInscripciones', () => {
                 </div>                
                 <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordionExample">
                     <div class="card-body">
-                    ${inscritosCurso(curso.id,listaInscripciones)}
+                    ${inscritosCurso(curso.id,inscripciones,usuarios)}
                     </div>
                 </div>
             </div>`; 
@@ -205,7 +207,7 @@ hbs.registerHelper('verInscripciones', () => {
 });
 
 const countInscritosCurso = (id,listaInscripciones) => {
-    lista = listaInscripciones.filter(i => i.idCurso == id);
+    lista = listaInscripciones.filter(i => i.curso == id);
     if (lista){
         return Object.keys(lista).length;
     }else{
@@ -213,17 +215,18 @@ const countInscritosCurso = (id,listaInscripciones) => {
     }
 }
 
-const inscritosCurso = (id,listaInscripciones) => {
-    lista = listaInscripciones.filter(i => i.idCurso == id);
-    listaUsuarios = require('../listadoUsuarios.json');
+const inscritosCurso = (id,listaInscripciones,usuarios) => {
+    lista = listaInscripciones.filter(i => i.curso == id);
+    //listaUsuarios = require('../listadoUsuarios.json');
     let texto = "";
     if (lista){
         lista.forEach(i => {
-            listaUsuarios.forEach(u =>{
-                if(i.idUser == u.id){
+            usuarios.forEach(u =>{
+                if(i.id == u.id){
                     texto = texto +
                     `<form action='/cursosInscripcion' method="post">
                     <input type="text" value="`+ u.id+ `" name="idUser" id="idUser" style="visibility:hidden">
+                    <input type="text" value="`+ id+ `" name="idCurso" id="idCurso" style="visibility:hidden">
                     `+  
                     `<b>Nombre: </b>` + u.nombre+ `<b> ID: </b>` + u.id + `<br>
                     <button class="btn btn-dark" type="submit" align="center">Eliminar</button>

@@ -1,45 +1,59 @@
 {{>header}}
 <div class="container" style="border-left: 1px solid silver; border-right: 1px solid silver">
     <br>
-    <h4>
-        Selecciona una opción del menú superior las cuales se detallan a continuación
-    </h4>
-    <p><b>Crear cursos: </b> Le permite al coordinador registrar cursos nuevos</p>
-    <p><b>Ver cursos: </b> Le permite al interesado ver los cursos disponibles</p>
-    <p><b>Inscripción: </b> Le permite al interesado registrarse en un curso de interés</p>
-    <p><b>Cursos e integrantes: </b> Le permite al coordinador ver los cursos con cada uno de sus inscritos y cerrar o colocarlo como disponible, adicional puede eliminar los aspirantes de los cursos</p>
-    <br>
-    <p>Ingrese sus datos en el siguiente formulario</p>
-    <form action='/' method="post">
-        <div class="form-group">
-            <label>Nombre de Usuario</label>
-            <input type="text" class="form-control" name="nombre" id="nombre"
-            placeholder="Nombre de usuario" required><br>
-            <label>Contraseña</label>
-            <input type="password" class="form-control" name="password" id="nombre"
-            placeholder="Contraseña" required><br>
-             <div class="row">
-                <div class="col">
-                    <label>Nota 1</label>
-                    <input type="number" class="form-control" name="matematicas" id="matematicas" 
-                    placeholder="Nota 1" required>
-                </div>
-                <div class="col">
-                    <label>Nota 2</label>
-                    <input type="number" class="form-control" name="ingles" id="ingles" 
-                    placeholder="Nota 2" required>
-                </div>
-                <div class="col">
-                    <label>Nota 3</label>
-                    <input type="number" class="form-control" name="programacion" id="programacion" 
-                    placeholder="Nota 3" required>
-                </div>
-            </div>
-            <br>
-            <div class="text-center">
-                <button class="btn btn-dark" >Registrar</button>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <h5>Formulario de registro</h5>
         </div>
-    </form>
+        <div class="card-body">
+            <b>En caso de no tener cuenta por favor llene los datos para registrarse</b>
+            <br><br>
+            <form action='/' method="post">
+                <div class="form-group">
+                    <label>Documento de identidad</label>
+                    <input type="number" class="form-control" name="id" id="id"
+                    placeholder="Documento de Identidad" required><br>
+                    <label>Nombre Completo</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre"
+                    placeholder="Nombres y Apellidos" required><br>
+                    <label>Teléfono</label>
+                    <input type="number" class="form-control" name="telefono" id="telefono"
+                    placeholder="Número de teléfono" required><br>
+                    <label>Correo</label>
+                    <input type="email" class="form-control" name="correo" id="correo"
+                    placeholder="Correo electrónico" required><br>
+                    <label>Contraseña para seguir ingresando</label>
+                    <input type="password" class="form-control" name="password" id="nombre"
+                    placeholder="Password" required><br>
+                    <label>Rol</label>
+                    <select class="form-control" name="rol" id="rol">
+                        <option value="aspirante">Aspirante</option>
+                        <option value="coordinador">Coordinador</option>
+                    </select>
+                    {{!-- <div class="row">
+                        <div class="col">
+                            <label>Nota 1</label>
+                            <input type="number" class="form-control" name="matematicas" id="matematicas" 
+                            placeholder="Nota 1" required>
+                        </div>
+                        <div class="col">
+                            <label>Nota 2</label>
+                            <input type="number" class="form-control" name="ingles" id="ingles" 
+                            placeholder="Nota 2" required>
+                        </div>
+                        <div class="col">
+                            <label>Nota 3</label>
+                            <input type="number" class="form-control" name="programacion" id="programacion" 
+                            placeholder="Nota 3" required>
+                        </div>
+                    </div> --}}
+                    <br>
+                    <div class="text-center">
+                        <button class="btn btn-dark" >Registrarse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {{>footer}}
