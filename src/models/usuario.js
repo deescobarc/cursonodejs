@@ -22,7 +22,8 @@ const usuarioSchema = new Schema({
     correo : {
         type: String,
         required : true,
-        unique : true
+        unique : true,
+        trim : true
     },
     telefono : {
         type: Number,
@@ -32,6 +33,9 @@ const usuarioSchema = new Schema({
         type: String,
         required : true,
         enum : {values : ['aspirante','coordinador'], message : 'El rol no es valido'},
+    },
+    avatar : {
+        type: Buffer
     },
 });
 

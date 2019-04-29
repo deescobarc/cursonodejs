@@ -83,10 +83,78 @@ mongoose.connect(process.env.URLDB, {useNewUrlParser: true},
     console.log("conectado")
 });
 
+//Puerto para trabajar sólo con express
+// app.listen(process.env.PORT, () =>{
+//     console.log('Servidor en el puerto' + process.env.PORT)
+// })
 
-//Puerto
-app.listen(process.env.PORT, () =>{
-    console.log('Servidor en el puerto' + process.env.PORT)
+//Para los sockets
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+//let contador = 0
+
+const { Usuarios } = require('./models/usuarios');
+const usuarios = new Usuarios();
+
+io.on('connection', client => {
+    console.log("Un usuario se conectó")
+
+    // client.emit('mensaje','Bienvenido a mi página')
+
+    // client.on('mensaje',(informacion) =>{
+    //     console.log(informacion)
+    // })
+
+    // client.on('contador', () =>{
+    //     contador ++
+    //     console.log(contador)
+    //     //Lo emite a un sólo cliente
+    //     //client.emit('contador',contador)
+    //     //Lo emite a todos
+    //     io.emit('contador',contador)
+    // })
+
+    client.on('usuarioNuevo',(usuario,rol)=>{
+        
+        let listado = usuarios.agregarUsuario(client.id, usuario)
+        console.log(listado)
+        let texto = `Se ha conectado ${usuario} con rol ${rol}`
+        io.emit('nuevoUsuario',texto)
+    })
+
+    client.on('disconnect',()=>{
+        let usuarioBorrado = usuarios.borrarUsuario(client.id)
+        let texto = `Se ha desconectado ${usuarioBorrado.nombre}`
+        io.emit('usuarioDesconectado',texto)
+    })
+
+    client.on('texto', (txt,callback) =>{
+        let usuario = usuarios.getUsuario(client.id)
+        let texto = `${usuario.nombre} : ${txt}`
+        io.emit('texto',(texto))
+        callback()
+
+    })
+
+    client.on('textoPrivado', (txt,callback) =>{
+        let usuario = usuarios.getUsuario(client.id)
+        let texto = `${usuario.nombre} : ${txt.mensajePrivado}`
+        let destinatario = usuarios.getDestinatario(txt.destinatario)
+        //Se envía a todas las personas menos a mi
+        //client.broadcast.emit('textoPrivado',(texto))
+
+        //Se envía a un usuario en especídifico
+        client.broadcast.to(destinatario.id).emit('textoPrivado',(texto))
+        callback()
+
+    })
+
+  });
+
+//Puerto con server para sockets
+server.listen(process.env.PORT, (err) =>{
+    console.log('Servidor en el puerto server ' + process.env.PORT)
 })
 
 

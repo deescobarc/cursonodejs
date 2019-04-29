@@ -1,0 +1,31 @@
+{{>header}}
+<div class="container" style="border-left: 1px solid silver; border-right: 1px solid silver">
+    <h1>Sala de chat general</h1>
+    <form id="formulario" >
+         <div class="form-group">
+             <label>Mensaje</label>
+            <input type="text" id="texto" class="form-control">
+            <button class="btn btn-info"> enviar </button>
+         </div>
+        
+    </form>
+    <div id="chat" class="card">
+        <ul class="list-group list-group-flush">
+            
+        </ul> </div>
+    <br>
+    <h1>Mensajes privados</h1>
+    <form id="formularioPrivado">
+        <div class="form-group">
+            <label>Destinatario</label>
+            <input type="text" id="destinatario" placeholder="Nombre de la persona con quién quiera hablar" class="form-control">
+            <label>Mensaje</label>
+            <input type="text" id="textoPrivado" class="form-control">
+            <button class="btn btn-success"> enviar privado</button>
+        </div>        
+    </form>
+    <div id="chatPrivado" class="card"> </div>
+</div>
+{{>footer}}
+<script src="socket.io/socket.io.js"></script>
+<script src="js/socket.js"></script> 

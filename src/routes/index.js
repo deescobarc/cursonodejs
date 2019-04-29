@@ -18,8 +18,12 @@ const dirViews = path.join(__dirname, '../../template/views');
 //Bcrypt
 const bcrypt = require('bcrypt');
 
+//Para los correos
+const  sgMail  =  require ( '@sendgrid/mail' );
+sgMail . setApiKey ( process . env . SENDGRID_API_KEY );
 
-
+//Multer
+const multer = require('multer') 
 
 require('./../helpers/helpers'); 
 
@@ -27,6 +31,14 @@ app.set ('view engine', 'hbs');
 app.set ('views', dirViews);
 hbs.registerPartials(directoriopartials);
 
+//Para el chat
+// const server = require('http').createServer(app);
+// const io = require('socket.io')(server);
+app.get('/chat',(req,res) => {
+    res.render('chat',{
+        titulo: 'Chat TdeA'
+    });
+});
 
 
 app.get('/',(req,res) => {
@@ -35,32 +47,107 @@ app.get('/',(req,res) => {
     });
 });
 
-app.post('/',(req,res) => {
 
-    console.log(req.body)
-    let usuario = new Usuario ({
-        nombre : req.body.nombre,
-        password : bcrypt.hashSync(req.body.password, 10),
-        id : req.body.id,
-        correo : req.body.correo,
-        telefono : req.body.telefono,
-        rol : req.body.rol
-    })
+//En caso de que se quiera guardar en el servidor
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, 'public/uploads')
+//     },
+//     filename: function (req, file, cb) {
+//     //   cb(null, file.fieldname + '-' + Date.now())
+//       cb(null, 'avatar' + req.body.nombre + path.extname(file.originalname) )
+//     }
+//   })
+   
+// var upload = multer({ storage: storage })
 
-    usuario.save((err,resultado)=>{
-        if(err){
-            res.render('indexpost',{
-                titulo: 'Error',
-                mostrarNombre : err
-            })
-        }else{
-            res.render('indexpost',{
-                titulo: 'El usuario fue creado correctamente',
-                mostrarNombre : resultado.nombre
-            })
-        }
+var upload = multer({
+    limits: {
+        fileSize : 10000000
+    },
+    fileFilter (req, file, cb) {   
+        if(!file.originalname.match(/\.(jpg|png|jpeg|JPEG|JPG)$/)) {
+            return cb(new Error('No es un archivo validado')) 
+        }         
+        // To accept the file pass `true`, like so:
+        cb(null, true)           
+       
+      }
+
+ })
+
+
+app.post('/',upload.single('archivo'),(req,res) => {
+    
+    if(req.file === undefined){
         
-    })
+        let usuario = new Usuario ({
+            nombre : req.body.nombre,
+            password : bcrypt.hashSync(req.body.password, 10),
+            id : req.body.id,
+            correo : req.body.correo,
+            telefono : req.body.telefono,
+            rol : req.body.rol,
+        })
+        usuario.save((err,resultado)=>{
+            if(err){
+                res.render('indexpost',{
+                    titulo: 'Error',
+                    mostrarNombre : err
+                })
+            }else{
+                //Para enviar correos
+                const msg = {
+                    to: req.body.correo,
+                    from: 'deescobarc@unal.edu.co',
+                    subject: 'Bienvenido',
+                    text: 'Bienvenido a la página de Node.JS',
+                    html: ' <strong> El usuario fue registrado </strong> ' 
+                };   
+                //sgMail.send(msg);
+                res.render('indexpost',{
+                    titulo: 'El usuario fue creado correctamente',
+                    mostrarNombre : resultado.nombre
+                })
+            }
+            
+        })
+    }else{
+        
+        let usuario = new Usuario ({
+            nombre : req.body.nombre,
+            password : bcrypt.hashSync(req.body.password, 10),
+            id : req.body.id,
+            correo : req.body.correo,
+            telefono : req.body.telefono,
+            rol : req.body.rol,
+            avatar : req.file.buffer
+        })
+        usuario.save((err,resultado)=>{
+            if(err){
+                res.render('indexpost',{
+                    titulo: 'Error',
+                    mostrarNombre : err
+                })
+            }else{
+                //Para enviar correos
+                const msg = {
+                    to: req.body.correo,
+                    from: 'deescobarc@unal.edu.co',
+                    subject: 'Bienvenido',
+                    text: 'Bienvenido a la página de Node.JS',
+                    html: ' <strong> El usuario fue registrado </strong> ' 
+                };   
+                //sgMail.send(msg);
+                res.render('indexpost',{
+                    titulo: 'El usuario fue creado correctamente',
+                    mostrarNombre : resultado.nombre
+                })
+            }
+            
+        })
+    }
+
 
     // let estudiante = new Estudiante ({
     //     nombre : req.body.nombre,
@@ -106,10 +193,17 @@ app.post('/ingresar', (req,res)=>{
                 mensaje : "Contraseña incorrecta",
             })
         }
+        console.log(resultados.avatar)
 
         //Para crear las variables de sesión
         req.session.usuario = resultados._id
         req.session.nombre = resultados.nombre
+        if(resultados.avatar === undefined){
+            avatar = null
+        }else{
+            avatar = resultados.avatar.toString('base64')
+        }
+        
 
         if(resultados.rol == 'aspirante'){
             req.session.aspirante = true
@@ -120,8 +214,6 @@ app.post('/ingresar', (req,res)=>{
             req.session.coordinador = true
             req.session.aspirante = false
         }
-        
-        console.log(req.session)
 
         // let token = jwt.sign({
         //                 usuario: resultados
@@ -139,6 +231,7 @@ app.post('/ingresar', (req,res)=>{
                 nombre : resultados.nombre,
                 sesion : true,
                 aspirante : true,
+                avatar : avatar
             })
         }
         if(resultados.rol == 'coordinador'){
@@ -149,6 +242,7 @@ app.post('/ingresar', (req,res)=>{
                 nombre : resultados.nombre,
                 sesion : true,
                 coordinador : true,
+                avatar : avatar
             })
         }
 
@@ -255,7 +349,7 @@ app.post('/actualizar', (req,res)=>{
         if(err){
             return console.log(err)
         }
-        console.log(resultados)
+        //console.log(resultados)
         res.render('actualizar',{
             
             nombre : resultados.nombre,
@@ -304,7 +398,7 @@ app.get('/cursos',(req, res) =>{
 })
 
 app.post('/cursoRegistrado', (req,res) => {
-    console.log(req.body)
+    //console.log(req.body)
     let curso = new Curso ({
         nombre : req.body.nombre,
         id : req.body.id,
@@ -449,6 +543,30 @@ app.post('/inscripcionRealizada',(req, res) =>{
                         })
                     })
                 }else{
+                    //Para enviar correos
+                    
+                    Curso.findOne({id : req.body.curso},(err, curso) => {
+                        if(err){
+                            return console.log(err)
+                        }
+                                                
+                        const msg = {
+                            to: req.body.correo,
+                            from: 'deescobarc@unal.edu.co',
+                            subject: 'Incripción al curso de '+curso.nombre+ 'En el TdeA',
+                            text: 'Bienvenido al Tecnológico de Antioquia',
+                            html: `<p>Su inscripción fue realizada correctamente, la información del curso es:</p>
+                                    <br>
+                                    <b>Nombre: </b>${curso.nombre} <br>  
+                                    <b>Valor: $</b> ${curso.valor}
+                                    <b>Descripción: </b> ${curso.descripcion} <br>
+                                    <b>Modalidad: </b> ${curso.modalidad} <br>
+                                    <b>Intensidad Horaria: </b> ${curso.intensidad} <br>
+                                    <p>Lo estaremos contactando en la mayor brevedad posible para darle indicaciones acerca del comienzo del curso</p>`
+                        };   
+                        sgMail.send(msg);
+                    });
+                    
                     res.render('inscripcionRegistrada',{
                         titulo: 'Información de la inscripción',
                         id: resultado.id,
@@ -668,7 +786,7 @@ app.post('/cursosInscripcion',(req, res) =>{
 
 
 app.post('/calculos',(req, res) =>{
-    console.log(req.query);
+    //console.log(req.query);
     res.render('calculos',{
         estudiante: req.body.nombre,
         nota1: parseInt(req.body.nota1),
@@ -679,7 +797,7 @@ app.post('/calculos',(req, res) =>{
 
 app.get('/listado',(req, res) =>{
 
-    console.log(req.query);
+    //console.log(req.query);
     res.render('listado',{
         titulo: 'Listado estudiantes'  
     });

@@ -38,6 +38,12 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="/inscripcion">Inscripción</a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/inscripcion">Inscripción</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/chat?usuario={{nombre}}&rol={{rol}}">Chat de Ayuda</a>
+                </li>
                 </ul>
                 {{/if}}
                 {{# if coordinador}}
@@ -47,6 +53,9 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="/cursosInscripcion">Cursos e Integrantes</a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/chat?usuario={{nombre}}&rol={{rol}}">Chat de Ayuda</a>
+                </li>
                 {{!-- <li class="nav-item ">
                     <a class="nav-link" href="/vernotas">Ver notas</a>
                 </li>
@@ -54,13 +63,15 @@
                     <a class="nav-link" href="/actualizar">Actualizar</a>
                 </li>
                 </ul> --}}
-                {{/if}}
-            
+                {{/if}}            
+        </div>
+        <div class="img" style="width: 80px; height: 80px;">
+                <img src="data:img;base64,{{avatar}}"  class="img-fluid img-thumbnail" alt="Imagen de perfil" > 
         </div>
             <form class="form-inline my-2 my-lg-0" action="/salir" method="get">
-            <h3>{{nombre }} - </h3>
+            <h3>--{{nombre}}--</h3>
             <button class="btn btn-primary my-2 my-sm-0" type="submit">Salir</button>
-        </form>
+            </form>
         </nav>
         {{else}}
         </ul>

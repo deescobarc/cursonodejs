@@ -147,8 +147,8 @@ hbs.registerHelper('verInscripciones', (inscripciones, cursos, usuarios) => {
     let texto = "<div class='accordion' id='accordionExample'>"
     i = 1;
     cursos.forEach(curso => {
-        console.log('datos curso')
-        console.log(curso)
+        //console.log('datos curso')
+        //console.log(curso)
         if(curso.estado == 'disponible'){
             texto = texto +
             `<div class="card">

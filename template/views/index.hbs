@@ -8,7 +8,7 @@
         <div class="card-body">
             <b>En caso de no tener cuenta por favor llene los datos para registrarse</b>
             <br><br>
-            <form action='/' method="post">
+            <form id="creacion" action='/' method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Documento de identidad</label>
                     <input type="number" class="form-control" name="id" id="id"
@@ -23,20 +23,21 @@
                     <input type="email" class="form-control" name="correo" id="correo"
                     placeholder="Correo electrónico" required><br>
                     <label>Contraseña para seguir ingresando</label>
-                    <input type="password" class="form-control" name="password" id="nombre"
+                    <input type="password" class="form-control" name="password" id="password"
                     placeholder="Password" required><br>
                     <label>Rol</label>
                     <select class="form-control" name="rol" id="rol">
                         <option value="aspirante">Aspirante</option>
                         <option value="coordinador">Coordinador</option>
                     </select>
-                    {{!-- <div class="row">
-                        <div class="col">
-                            <label>Nota 1</label>
-                            <input type="number" class="form-control" name="matematicas" id="matematicas" 
-                            placeholder="Nota 1" required>
-                        </div>
-                        <div class="col">
+                    <br>
+                    <label>Subir una imagen de perfil (El formato es PNG ó JPEG y no debe pesar más de 10 Mb. )</label>
+                    <br>
+                    <input type="file" name="archivo" id="archivo" accept="image/JPEG,image/JPG,image/png,image/jpeg,image/jpg" required>
+                    <br>
+                    
+                    {{!-- <div class="row"> --}}
+                        {{!-- <div class="col">
                             <label>Nota 2</label>
                             <input type="number" class="form-control" name="ingles" id="ingles" 
                             placeholder="Nota 2" required>
@@ -45,13 +46,19 @@
                             <label>Nota 3</label>
                             <input type="number" class="form-control" name="programacion" id="programacion" 
                             placeholder="Nota 3" required>
-                        </div>
-                    </div> --}}
+                        </div> --}}
+                    {{!-- </div> --}}
                     <br>
                     <div class="text-center">
                         <button class="btn btn-dark" >Registrarse</button>
                     </div>
                 </div>
+            </form>
+            <h1>Ingresar al chat</h1>
+            <form id="formulario" action='/chat'>
+                <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario">
+                <input type="text" id="nam" name="nam" placeholder="Nombre de usuario">
+                <button> enviar </button>
             </form>
         </div>
     </div>
