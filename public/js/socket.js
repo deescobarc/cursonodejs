@@ -69,5 +69,5 @@ formularioPrivado.addEventListener('submit',(datos) =>{
 
 socket.on('textoPrivado',(txt)=>{
     console.log(txt)
-    chat.innerHTML = chat.innerHTML + `<li class="list-group-item">` +txt+ `</li>`
+    chatPrivado.innerHTML = chatPrivado.innerHTML + `<li class="list-group-item">` +txt+ `</li>`
 })
